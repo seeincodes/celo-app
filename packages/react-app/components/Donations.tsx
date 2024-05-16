@@ -8,20 +8,30 @@ interface Donation {
   note: string;
 }
 
-interface DonationsProps {}
-
 const contractAddress = "0xbDCF0eD058D57380445F3b76aF061b9542d93940";
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const contract = new ethers.Contract(
-  contractAddress,
-  abi,
-  provider.getSigner()
-);
 
-const Donations: React.FC<DonationsProps> = () => {
+const Donations: React.FC = () => {
   const [donations, setDonations] = useState<Donation[]>([]);
+  const [provider, setProvider] =
+    useState<ethers.providers.Web3Provider | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.ethereum) {
+      const web3Provider = new ethers.providers.Web3Provider(
+        window.ethereum,
+        "any"
+      );
+      setProvider(web3Provider);
+    }
+  }, []);
 
   const fetchDonations = async () => {
+    if (!provider) return;
+    const contract = new ethers.Contract(
+      contractAddress,
+      abi,
+      provider.getSigner()
+    );
     const donationCount: number = await contract.getDonationCount();
     const donationList: Donation[] = [];
 
@@ -37,33 +47,11 @@ const Donations: React.FC<DonationsProps> = () => {
     setDonations(donationList);
   };
 
-  // Define the listener as a reusable function
-  const handleTeaReceived = (
-    sender: string,
-    amount: ethers.BigNumber,
-    note: string
-  ) => {
-    setDonations((prevState) => [
-      ...prevState,
-      {
-        donor: sender,
-        amount: ethers.utils.formatEther(amount),
-        note: note,
-      },
-    ]);
-  };
-
   useEffect(() => {
-    fetchDonations();
-
-    // Attach the event listener
-    contract.on("TeaReceived", handleTeaReceived);
-
-    // Cleanup function to remove the event listener
-    return () => {
-      contract.off("TeaReceived", handleTeaReceived);
-    };
-  }, []);
+    if (provider) {
+      fetchDonations();
+    }
+  }, [provider]);
 
   return (
     <div className='p-5'>
