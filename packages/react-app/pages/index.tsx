@@ -1,3 +1,4 @@
+import Form from "@/components/Form";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
@@ -12,13 +13,9 @@ export default function Home() {
   }, [address, isConnected]);
 
   return (
-    <div className="flex flex-col justify-center items-center">
-      <div className="h1">
-        There you go... a canvas for your next Celo project!
-      </div>
-      {isConnected && (
-        <div className="h2 text-center">Your address: {userAddress}</div>
-      )}
+    <div className='flex flex-col justify-center items-center'>
+      {!isConnected && <div className='h1'>Send Tea</div>}
+      {isConnected && <Form />}
     </div>
   );
 }

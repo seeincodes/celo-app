@@ -26,5 +26,9 @@
     "keywords": [
         "celo-composer",
         "celo"
-    ]
+    ],
+    "dependencies": {
+        "@livepeer/react": "^4.1.14",
+        "livepeer": "^3.0.2"
+    }
 }
