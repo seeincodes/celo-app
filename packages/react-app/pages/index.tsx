@@ -1,5 +1,6 @@
 import Donations from "@/components/Donations";
 import Form from "@/components/Form";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 
@@ -15,7 +16,15 @@ export default function Home() {
 
   return (
     <div className='flex flex-col justify-center items-center'>
-      {!isConnected && <div className='h1'>Send Tea</div>}
+      {!isConnected && (
+        <>
+          <div className='text-4xl font-sans mb-4'>Send Tea</div>
+          <div className='text-xl font-sans mb-4'>
+            Connect your wallet to send tea.
+          </div>
+          <Image src='/tea.png' width={200} height={200} alt='Tea' />
+        </>
+      )}
       {isConnected && (
         <>
           <Form />
