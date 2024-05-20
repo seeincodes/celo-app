@@ -39,7 +39,7 @@ export default function Header() {
               <div className='flex flex-1 items-center justify-center sm:items-stretch sm:justify-start'>
                 <div className='flex flex-shrink-0 items-center'>
                   <Image
-                    className='block h-12 w-auto sm:block lg:block'
+                    className='block h-20 w-auto sm:block lg:block'
                     src='/logo.png'
                     width={60}
                     height={60}
