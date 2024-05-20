@@ -10,7 +10,7 @@ interface Donation {
 
 const contractAddress = "0xbDCF0eD058D57380445F3b76aF061b9542d93940";
 
-const Donations: React.FC = () => {
+export default function Donations() {
   const [donations, setDonations] = useState<Donation[]>([]);
   const [provider, setProvider] =
     useState<ethers.providers.Web3Provider | null>(null);
@@ -73,6 +73,4 @@ const Donations: React.FC = () => {
       </ul>
     </div>
   );
-};
-
-export default Donations;
+}
